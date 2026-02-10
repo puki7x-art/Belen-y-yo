@@ -8,128 +8,148 @@
 <style>
 body{
   margin:0;
-  background:#040404;
+  background:#020202;
   font-family: Georgia, serif;
   color:#e6e6e6;
-  overflow-x:hidden;
+  overflow:hidden;
   text-align:center;
 }
 
-/* ===== FONDO ===== */
-.fog, .rain, .heart, .spider{
+/* TELARAÑAS */
+.corner{
   position:fixed;
-  pointer-events:none;
+  font-size:60px;
+  opacity:0.25;
+  z-index:5;
 }
+.tl{top:0;left:0}
+.tr{top:0;right:0}
+.bl{bottom:0;left:0}
+.br{bottom:0;right:0}
 
+/* NIEBLA */
 .fog{
-  width:200%;
-  height:200%;
-  background:radial-gradient(circle, rgba(255,255,255,0.05), transparent 65%);
-  animation:fog 50s linear infinite;
+  position:fixed;
+  inset:-50%;
+  background:radial-gradient(circle, rgba(255,255,255,0.04), transparent 65%);
+  animation:fog 60s linear infinite;
   z-index:0;
 }
 @keyframes fog{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
 }
 
+/* LLUVIA */
 .rain{
+  position:fixed;
   width:2px;
   height:90px;
   background:rgba(255,255,255,0.15);
   animation:fall linear infinite;
-  z-index:0;
+  z-index:1;
 }
 @keyframes fall{
-  from{transform:translateY(-120px);}
-  to{transform:translateY(120vh);}
+  from{transform:translateY(-120px)}
+  to{transform:translateY(120vh)}
 }
 
-.heart{
-  font-size:16px;
-  animation:float 8s linear forwards, beat 1.3s infinite;
-  z-index:1;
-}
-@keyframes float{
-  from{bottom:-20px;opacity:1;}
-  to{bottom:110vh;opacity:0;}
-}
-@keyframes beat{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.35);}
-}
-
-.spider{
-  font-size:20px;
-  animation:spider 14s linear forwards;
-  z-index:1;
-}
-@keyframes spider{
-  from{top:-40px;}
-  to{top:110vh;}
+/* LUNA */
+.moon{
+  position:fixed;
+  top:40px;
+  right:40px;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:#d9d9d9;
+  box-shadow:0 0 40px rgba(255,255,255,0.2);
+  opacity:0.6;
+  z-index:0;
 }
 
-/* ===== SOBRE ===== */
+/* SOBRE */
 .envelope{
-  position:relative;
-  width:240px;
+  width:260px;
   height:160px;
-  margin:140px auto 40px;
+  margin:180px auto;
   background:#111;
   border:2px solid #333;
   cursor:pointer;
-  z-index:2;
+  position:relative;
+  z-index:10;
 }
-.flap{
+.envelope::before{
+  content:"";
   position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  background:#1a1a1a;
-  clip-path:polygon(0 0,100% 0,50% 55%);
-  transform-origin:top;
-  transition:1.2s;
-}
-.envelope.open .flap{
-  transform:rotateX(180deg);
+  inset:0;
+  background:linear-gradient(135deg, transparent 50%, #222 50%);
 }
 
-/* ===== CARTA ===== */
+/* CARTA */
 .card{
   width:300px;
-  margin:20px auto 80px;
+  margin:auto;
   padding:20px;
   background:#0b0b0b;
   border:2px solid #2a2a2a;
   opacity:0;
   transition:2s;
-  white-space:pre-line;
   line-height:1.8;
-  box-shadow:0 0 30px rgba(0,0,0,0.8);
-  z-index:2;
+  box-shadow:0 0 40px rgba(0,0,0,0.9);
+  z-index:10;
+  position:relative;
 }
-
 .card img{
   width:100%;
   border-radius:10px;
   margin:14px 0;
-  filter:grayscale(100%) contrast(110%);
+  filter:grayscale(100%);
   animation:ghost 6s infinite;
 }
 @keyframes ghost{
-  0%,100%{opacity:0.85;}
-  50%{opacity:0.6;}
+  0%,100%{opacity:0.85}
+  50%{opacity:0.6}
 }
 
-#forever{
-  margin-top:18px;
+/* CORAZONES */
+.heart{
+  position:fixed;
   font-size:16px;
+  animation:float 9s linear forwards, beat 1.2s infinite;
+  z-index:2;
+}
+@keyframes float{
+  from{bottom:-20px}
+  to{bottom:110vh}
+}
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.4)}
+}
+
+/* ARAÑAS */
+.spider{
+  position:fixed;
+  font-size:20px;
+  animation:spider 14s linear infinite;
+  z-index:2;
+}
+@keyframes spider{
+  from{top:-40px}
+  to{top:110vh}
+}
+
+/* FIRMA */
+#signature{
+  margin-top:20px;
+  font-style:italic;
   opacity:0;
   transition:3s;
 }
 
-/* ===== FINAL PELÍCULA ===== */
-.final{
+/* FINAL */
+#final{
   position:fixed;
   inset:0;
   background:black;
@@ -137,12 +157,11 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:20px;
-  letter-spacing:2px;
+  flex-direction:column;
   opacity:0;
   pointer-events:none;
   transition:4s;
-  z-index:5;
+  z-index:20;
 }
 </style>
 </head>
@@ -150,10 +169,14 @@ body{
 <body>
 
 <div class="fog"></div>
+<div class="moon"></div>
 
-<div class="envelope" id="envelope">
-  <div class="flap"></div>
-</div>
+<div class="corner tl">🕸</div>
+<div class="corner tr">🕸</div>
+<div class="corner bl">🕸</div>
+<div class="corner br">🕸</div>
+
+<div class="envelope" onclick="openLetter()"></div>
 
 <div class="card" id="card">
 Para Belén 🖤
@@ -166,24 +189,25 @@ Para Belén 🖤
 
 <div id="quote"></div>
 
-<div id="forever">
-Belén & Augusto — Para siempre ♾️  
-— Augusto
-</div>
+<div id="signature">— Augusto</div>
 </div>
 
-<div class="final" id="final">
-BELÉN & AUGUSTO  
-PARA SIEMPRE ♾️
+<div id="final">
+<h2>Belén & Augusto</h2>
+<p>Para siempre ♾️</p>
+<p style="margin-top:20px">Fin… o comienzo</p>
 </div>
 
-<audio id="thunder" preload="auto">
+<audio id="thunder">
 <source src="https://assets.mixkit.co/sfx/preview/mixkit-thunder-rumble-128.mp3">
 </audio>
 
+<audio id="music" loop>
+<source src="https://assets.mixkit.co/music/preview/mixkit-dark-piano-123.mp3">
+</audio>
+
 <script>
-const message = `
-Nuestro primer San Valentín,
+const message=`Nuestro primer San Valentín,
 con mi mejor amiga,
 mi compañera,
 mi eterno amor.
@@ -191,53 +215,34 @@ mi eterno amor.
 Te amo infinitamente
 y quiero estar siempre a tu lado,
 dormir en cucharita
-y mucho bechoabacho.
-`;
+y mucho bechoabacho.`;
 
-const quote = `
-“Incluso en los lugares más oscuros,
-el amor es lo único
-que nos mantiene vivos.”
-— Tim Burton
-`;
+const quote=`"Incluso en los lugares más oscuros,
+el amor es lo único que nos mantiene vivos."
+— Tim Burton`;
 
 function typeText(id,text,speed){
+  let i=0;
   const el=document.getElementById(id);
   el.textContent="";
-  let i=0;
-  const int=setInterval(()=>{
-    el.textContent+=text[i];
-    i++;
-    if(i>=text.length)clearInterval(int);
+  const t=setInterval(()=>{
+    el.textContent+=text[i++];
+    if(i>=text.length)clearInterval(t);
   },speed);
 }
 
-let opened=false;
-document.getElementById("envelope").addEventListener("click",()=>{
-  if(opened) return;
-  opened=true;
+function openLetter(){
+  document.querySelector(".envelope").style.display="none";
+  document.getElementById("card").style.opacity=1;
+  document.getElementById("thunder").play();
+  document.getElementById("music").play().catch(()=>{});
+  setTimeout(()=>typeText("text",message,45),800);
+  setTimeout(()=>typeText("quote",quote,55),4200);
+  setTimeout(()=>document.getElementById("signature").style.opacity=1,7500);
+  setTimeout(()=>document.getElementById("final").style.opacity=1,12000);
+}
 
-  const env=document.getElementById("envelope");
-  const card=document.getElementById("card");
-  env.classList.add("open");
-
-  document.getElementById("thunder").play().catch(()=>{});
-
-  setTimeout(()=>{
-    card.style.opacity=1;
-  },700);
-
-  setTimeout(()=>typeText("text",message,45),1200);
-  setTimeout(()=>typeText("quote",quote,55),5200);
-  setTimeout(()=>document.getElementById("forever").style.opacity=1,8500);
-
-  // FINAL DE PELÍCULA
-  setTimeout(()=>{
-    document.getElementById("final").style.opacity=1;
-  },12000);
-});
-
-/* efectos */
+/* lluvia */
 for(let i=0;i<60;i++){
   let r=document.createElement("div");
   r.className="rain";
@@ -246,6 +251,7 @@ for(let i=0;i<60;i++){
   document.body.appendChild(r);
 }
 
+/* corazones */
 setInterval(()=>{
   let h=document.createElement("div");
   h.className="heart";
@@ -255,6 +261,7 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),9000);
 },800);
 
+/* arañas */
 setInterval(()=>{
   let s=document.createElement("div");
   s.className="spider";
@@ -262,7 +269,7 @@ setInterval(()=>{
   s.style.left=Math.random()*100+"vw";
   document.body.appendChild(s);
   setTimeout(()=>s.remove(),14000);
-},4500);
+},4000);
 </script>
 
 </body>
