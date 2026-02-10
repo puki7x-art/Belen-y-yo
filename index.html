@@ -2,37 +2,32 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Belén & Augusto 🖤</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belén & Augusto — Para siempre</title>
 
 <style>
-body{
+html,body{
   margin:0;
-  height:100vh;
-  background:radial-gradient(circle at top,#1a1a1a,#000);
+  padding:0;
+  width:100%;
+  height:100%;
+  background:#050505;
   overflow:hidden;
-  font-family:Georgia, serif;
-  color:#e0e0e0;
-}
-
-/* ⚡ FLASH */
-.flash{
-  position:fixed;
-  inset:0;
-  background:white;
-  opacity:0;
-  pointer-events:none;
+  font-family: "Georgia", serif;
+  color:#e6e6e6;
 }
 
 /* 🌫️ NIEBLA */
 .fog{
   position:absolute;
   width:200%;
-  height:100%;
-  background:url("https://i.imgur.com/9Qx6KQF.png");
-  opacity:0.15;
-  animation:fog 60s linear infinite;
+  height:200%;
+  background:radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 60%);
+  animation:fogmove 40s linear infinite;
+  z-index:2;
 }
-@keyframes fog{
+@keyframes fogmove{
+  from{transform:translateX(0);}
   to{transform:translateX(-50%);}
 }
 
@@ -43,172 +38,126 @@ body{
   height:90px;
   background:rgba(255,255,255,0.15);
   animation:fall linear infinite;
+  z-index:1;
 }
 @keyframes fall{
+  from{transform:translateY(-100px);}
   to{transform:translateY(110vh);}
 }
 
-/* 🕸️ TELARAÑAS */
-.web{
+/* 🖤 CORAZONES */
+.heart{
   position:absolute;
-  width:200px;
-  height:200px;
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:50%;
-  animation:spin 40s linear infinite;
+  font-size:16px;
+  animation:float 8s linear forwards, beat 1.2s infinite;
+  z-index:3;
 }
-@keyframes spin{
-  to{transform:rotate(360deg);}
+@keyframes float{
+  from{bottom:-20px; opacity:1;}
+  to{bottom:110vh; opacity:0;}
 }
-
-/* 🕷️ ARAÑA */
-.spider{
-  position:absolute;
-  top:-30px;
-  left:50%;
-  width:20px;
-  height:20px;
-  background:black;
-  border-radius:50%;
-  animation:drop 6s ease-in-out infinite;
-}
-.spider::before{
-  content:'';
-  position:absolute;
-  top:-120px;
-  left:50%;
-  width:2px;
-  height:120px;
-  background:#444;
-}
-@keyframes drop{
-  50%{transform:translateY(240px);}
+@keyframes beat{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.3);}
 }
 
 /* ✉️ SOBRE */
 .envelope{
   position:absolute;
-  width:320px;
-  height:220px;
-  background:#0b0b0b;
-  border:2px solid #222;
-  top:50%;
+  width:220px;
+  height:140px;
+  background:#111;
+  border:2px solid #333;
+  top:40%;
   left:50%;
   transform:translate(-50%,-50%);
   cursor:pointer;
+  z-index:4;
 }
-
 .flap{
   position:absolute;
   width:100%;
-  height:50%;
-  background:#111;
+  height:100%;
+  background:#1a1a1a;
+  clip-path:polygon(0 0, 100% 0, 50% 50%);
   transform-origin:top;
-  transition:1.5s;
+  transition:1.2s;
 }
 
-/* 💌 CARTA */
+/* 📜 CARTA */
 .card{
   position:absolute;
   width:300px;
-  height:470px;
+  min-height:520px;
   background:#0e0e0e;
   border:2px solid #2a2a2a;
   top:20px;
-  left:10px;
-  padding:15px;
+  left:50%;
+  transform:translateX(-50%) translateY(40px);
+  padding:18px;
   opacity:0;
-  transform:translateY(40px);
   transition:2s;
   text-align:center;
+  font-size:15px;
+  line-height:1.6;
+  z-index:5;
 }
 
-/* 👻 FOTO PRINCIPAL (NUEVA) */
-.photo{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  background:url("https://raw.githubusercontent.com/puki7x-art/Belen-y-yo/refs/heads/main/73bf100a-6804-4634-8108-da30b48e066d.jpeg") center/cover;
-  filter:grayscale(100%);
-  opacity:0.75;
-  margin:10px auto;
-  box-shadow:0 0 25px rgba(255,255,255,0.25);
-}
-
-/* 🖼️ FOTO SECUNDARIA (NUEVA) */
-.extra-photo{
+.card img{
   width:100%;
-  height:90px;
-  background:url("https://raw.githubusercontent.com/puki7x-art/Belen-y-yo/refs/heads/main/eb5c7635-eef6-4f06-8bc6-9c9930e6cdbb.jpeg") center/cover;
-  margin-top:10px;
-  opacity:0.6;
-  filter:grayscale(100%);
+  border-radius:8px;
+  margin:12px 0;
+  opacity:0.85;
+  filter:grayscale(100%) blur(0.3px);
 }
 
-/* 🖤 CORAZONES LATIENDO */
-.heart{
-  position:absolute;
-  bottom:-20px;
-  font-size:20px;
-  animation:
-    float 9s linear infinite,
-    beat 1.2s ease-in-out infinite;
-}
-@keyframes float{
-  to{transform:translateY(-120vh);}
-}
-@keyframes beat{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.35);}
+h2{
+  margin-top:5px;
+  font-size:18px;
+  letter-spacing:1px;
 }
 
-/* ♾️ PARA SIEMPRE */
 #forever{
   margin-top:14px;
-  font-size:17px;
-  letter-spacing:2px;
+  font-size:16px;
   opacity:0;
-  color:#cfcfcf;
-  animation:eternal 3s ease-in-out infinite;
-}
-@keyframes eternal{
-  0%,100%{transform:scale(1); opacity:0.6;}
-  50%{transform:scale(1.15); opacity:1;}
+  transition:2s;
 }
 </style>
 </head>
 
 <body>
 
-<div class="flash" id="flash"></div>
-<audio id="thunder" src="trueno.mp3"></audio>
-
 <div class="fog"></div>
-<div class="web" style="top:-80px;left:-80px"></div>
-<div class="web" style="top:-80px;right:-80px"></div>
-<div class="spider"></div>
 
 <div class="envelope" onclick="openLetter()">
   <div class="flap" id="flap"></div>
+</div>
 
-  <div class="card" id="card">
-    <h3>Para Belén 🖤</h3>
+<div class="card" id="card">
+  <h2>Para Belén 🖤</h2>
 
-    <div class="photo"></div>
+  <img src="https://raw.githubusercontent.com/puki7x-art/Belen-y-yo/refs/heads/main/73bf100a-6804-4634-8108-da30b48e066d.jpeg">
 
-    <p id="text"></p>
-    <p id="quote"></p>
+  <div id="text"></div>
 
-    <div id="forever">Belén &amp; Augusto — Para siempre ♾️</div>
+  <img src="https://raw.githubusercontent.com/puki7x-art/Belen-y-yo/refs/heads/main/eb5c7635-eef6-4f06-8bc6-9c9930e6cdbb.jpeg">
 
-    <div class="extra-photo"></div>
+  <div id="quote"></div>
 
-    <p><b>— Augusto</b></p>
+  <div id="forever">
+    Belén & Augusto — Para siempre ♾️
+    <br><br>
+    — Augusto
   </div>
 </div>
 
+<!-- 🔊 SONIDO TRUENO -->
+<audio id="thunder">
+  <source src="https://assets.mixkit.co/sfx/preview/mixkit-thunder-rumble-128.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-// ✍️ TEXTO ESCRIBIÉNDOSE
 const message = `
 Nuestro primer San Valentín,
 con mi mejor amiga,
@@ -223,36 +172,48 @@ y mucho bechoabacho.
 
 const quote = `
 “Incluso en los lugares más oscuros,
-el amor es lo único que nos mantiene vivos.”
+el amor es lo único
+que nos mantiene vivos.”
+— Tim Burton
 `;
 
-function typeText(id,text,speed){
-  let i=0, el=document.getElementById(id);
-  const int=setInterval(()=>{
-    el.innerHTML+=text[i]==="\n"?"<br>":text[i];
-    if(++i>=text.length) clearInterval(int);
-  },speed);
+function typeText(id, text, speed){
+  const el = document.getElementById(id);
+  el.innerHTML = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    if (text[i] === "\n") el.innerHTML += "<br>";
+    else el.innerHTML += text[i];
+    i++;
+    if (i >= text.length) clearInterval(interval);
+  }, speed);
 }
 
 function openLetter(){
-  document.getElementById("flap").style.transform="rotateX(180deg)";
-  document.getElementById("card").style.opacity="1";
-  document.getElementById("card").style.transform="translateY(-60px)";
-  setTimeout(()=>typeText("text",message,40),800);
-  setTimeout(()=>typeText("quote",quote,50),5000);
-  setTimeout(()=>document.getElementById("forever").style.opacity=1,8000);
+  document.getElementById("flap").style.transform = "rotateX(180deg)";
+  document.getElementById("thunder").play();
+
+  const card = document.getElementById("card");
+  card.style.opacity = "1";
+  card.style.transform = "translateX(-50%) translateY(-40px)";
+
+  setTimeout(() => typeText("text", message, 45), 900);
+  setTimeout(() => typeText("quote", quote, 55), 5200);
+  setTimeout(() => {
+    document.getElementById("forever").style.opacity = 1;
+  }, 8500);
 }
 
-// 🌧️ LLUVIA
-for(let i=0;i<90;i++){
+/* 🌧️ lluvia */
+for(let i=0;i<80;i++){
   let r=document.createElement("div");
   r.className="rain";
   r.style.left=Math.random()*100+"vw";
-  r.style.animationDuration=(0.4+Math.random())+"s";
+  r.style.animationDuration=(0.6+Math.random())+"s";
   document.body.appendChild(r);
 }
 
-// 🖤 CORAZONES
+/* 🖤 corazones */
 setInterval(()=>{
   let h=document.createElement("div");
   h.className="heart";
@@ -260,14 +221,7 @@ setInterval(()=>{
   h.style.left=Math.random()*100+"vw";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),9000);
-},450);
-
-// ⚡ TRUENO
-setInterval(()=>{
-  document.getElementById("flash").style.opacity=0.8;
-  document.getElementById("thunder").play();
-  setTimeout(()=>document.getElementById("flash").style.opacity=0,150);
-},12000);
+},500);
 </script>
 
 </body>
