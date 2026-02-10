@@ -8,62 +8,124 @@
 <style>
 body{
   margin:0;
-  background:#050505;
-  font-family:Georgia, serif;
+  background:#040404;
+  font-family: Georgia, serif;
   color:#e6e6e6;
   overflow-x:hidden;
   text-align:center;
 }
 
-/* fondo */
-.rain, .fog, .heart{
+/* 🌫 NIEBLA */
+.fog{
   position:fixed;
+  top:0;left:0;
+  width:200%;
+  height:200%;
+  background:radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 65%);
+  animation:fog 50s linear infinite;
   pointer-events:none;
   z-index:0;
 }
+@keyframes fog{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
 
-/* botón */
+/* 🌧 LLUVIA */
+.rain{
+  position:fixed;
+  width:2px;
+  height:90px;
+  background:rgba(255,255,255,0.15);
+  animation:fall linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+@keyframes fall{
+  from{transform:translateY(-120px);}
+  to{transform:translateY(120vh);}
+}
+
+/* 🕷 ARAÑAS */
+.spider{
+  position:fixed;
+  font-size:20px;
+  animation:spider 14s linear infinite;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes spider{
+  from{top:-40px;}
+  to{top:110vh;}
+}
+
+/* 🖤 CORAZONES */
+.heart{
+  position:fixed;
+  font-size:16px;
+  animation:float 8s linear forwards, beat 1.3s infinite;
+  pointer-events:none;
+  z-index:1;
+}
+@keyframes float{
+  from{bottom:-20px;opacity:1;}
+  to{bottom:110vh;opacity:0;}
+}
+@keyframes beat{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.35);}
+}
+
+/* 🔘 BOTÓN */
 button{
   margin-top:120px;
-  padding:14px 24px;
-  background:#111;
+  padding:16px 28px;
+  background:#0e0e0e;
   border:2px solid #333;
   color:#e6e6e6;
   font-size:16px;
   cursor:pointer;
-  z-index:2;
+  letter-spacing:1px;
 }
 
-/* carta */
+/* 📜 CARTA */
 .card{
   width:300px;
   margin:40px auto;
-  padding:18px;
-  background:#0e0e0e;
+  padding:20px;
+  background:#0b0b0b;
   border:2px solid #2a2a2a;
   opacity:0;
-  transition:1.5s;
+  transition:2s;
   white-space:pre-line;
-  line-height:1.7;
-  z-index:1;
+  line-height:1.8;
+  box-shadow:0 0 30px rgba(0,0,0,0.8);
 }
 
 .card img{
   width:100%;
-  margin:12px 0;
-  border-radius:8px;
-  filter:grayscale(100%);
+  border-radius:10px;
+  margin:14px 0;
+  filter:grayscale(100%) contrast(110%);
+  animation:ghost 6s infinite;
+}
+@keyframes ghost{
+  0%,100%{opacity:0.85;}
+  50%{opacity:0.6;}
 }
 
 #forever{
-  margin-top:14px;
+  margin-top:16px;
+  font-size:16px;
   opacity:0;
-  transition:2s;
+  transition:3s;
 }
 </style>
 </head>
 
 <body>
+
+<div class="fog"></div>
 
 <button onclick="openLetter()">🖤 Abrir la carta</button>
 
@@ -84,6 +146,7 @@ Belén & Augusto — Para siempre ♾️
 </div>
 </div>
 
+<!-- 🔊 TRUENO -->
 <audio id="thunder" preload="auto">
 <source src="https://assets.mixkit.co/sfx/preview/mixkit-thunder-rumble-128.mp3">
 </audio>
@@ -125,10 +188,39 @@ function openLetter(){
 
   document.getElementById("thunder").play().catch(()=>{});
 
-  setTimeout(()=>typeText("text",message,45),500);
-  setTimeout(()=>typeText("quote",quote,55),4500);
-  setTimeout(()=>document.getElementById("forever").style.opacity=1,7500);
+  setTimeout(()=>typeText("text",message,45),600);
+  setTimeout(()=>typeText("quote",quote,55),4600);
+  setTimeout(()=>document.getElementById("forever").style.opacity=1,8000);
 }
+
+/* lluvia */
+for(let i=0;i<70;i++){
+  let r=document.createElement("div");
+  r.className="rain";
+  r.style.left=Math.random()*100+"vw";
+  r.style.animationDuration=(0.6+Math.random())+"s";
+  document.body.appendChild(r);
+}
+
+/* corazones */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="🖤";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),9000);
+},700);
+
+/* arañas */
+setInterval(()=>{
+  let s=document.createElement("div");
+  s.className="spider";
+  s.innerHTML="🕷";
+  s.style.left=Math.random()*100+"vw";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),14000);
+},4000);
 </script>
 
 </body>
