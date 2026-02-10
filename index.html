@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Belén & Augusto 🖤</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle at top,#1a1a1a,#000);
+  overflow:hidden;
+  font-family:Georgia, serif;
+  color:#e0e0e0;
+}
+
+/* ⚡ FLASH */
+.flash{
+  position:fixed;
+  inset:0;
+  background:white;
+  opacity:0;
+  pointer-events:none;
+}
+
+/* 🌫️ NIEBLA */
+.fog{
+  position:absolute;
+  width:200%;
+  height:100%;
+  background:url("https://i.imgur.com/9Qx6KQF.png");
+  opacity:0.15;
+  animation:fog 60s linear infinite;
+}
+@keyframes fog{
+  to{transform:translateX(-50%);}
+}
+
+/* 🌧️ LLUVIA */
+.rain{
+  position:absolute;
+  width:2px;
+  height:90px;
+  background:rgba(255,255,255,0.15);
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh);}
+}
+
+/* 🕸️ TELARAÑAS */
+.web{
+  position:absolute;
+  width:200px;
+  height:200px;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:50%;
+  animation:spin 40s linear infinite;
+}
+@keyframes spin{
+  to{transform:rotate(360deg);}
+}
+
+/* 🕷️ ARAÑA */
+.spider{
+  position:absolute;
+  top:-30px;
+  left:50%;
+  width:20px;
+  height:20px;
+  background:black;
+  border-radius:50%;
+  animation:drop 6s ease-in-out infinite;
+}
+.spider::before{
+  content:'';
+  position:absolute;
+  top:-120px;
+  left:50%;
+  width:2px;
+  height:120px;
+  background:#444;
+}
+@keyframes drop{
+  50%{transform:translateY(240px);}
+}
+
+/* ✉️ SOBRE */
+.envelope{
+  position:absolute;
+  width:320px;
+  height:220px;
+  background:#0b0b0b;
+  border:2px solid #222;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  cursor:pointer;
+}
+
+.flap{
+  position:absolute;
+  width:100%;
+  height:50%;
+  background:#111;
+  transform-origin:top;
+  transition:1.5s;
+}
+
+/* 💌 CARTA */
+.card{
+  position:absolute;
+  width:300px;
+  height:470px;
+  background:#0e0e0e;
+  border:2px solid #2a2a2a;
+  top:20px;
+  left:10px;
+  padding:15px;
+  opacity:0;
+  transform:translateY(40px);
+  transition:2s;
+  text-align:center;
+}
+
+/* 👻 FOTO PRINCIPAL */
+.photo{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:url("https://raw.githubusercontent.com/puki7x-art/San-valentinmol/refs/heads/main/3222AA3C-5A53-486B-BDA7-2873C6D5CAB5.png") center/cover;
+  filter:grayscale(100%);
+  opacity:0.75;
+  margin:10px auto;
+  box-shadow:0 0 25px rgba(255,255,255,0.25);
+}
+
+/* 🖼️ FOTO SECUNDARIA */
+.extra-photo{
+  width:100%;
+  height:90px;
+  background:url("https://raw.githubusercontent.com/puki7x-art/San-valentinmol/refs/heads/main/a5e2e797-8a92-43c9-bf1b-bcc351ab90d1.jpeg") center/cover;
+  margin-top:10px;
+  opacity:0.6;
+  filter:grayscale(100%);
+}
+
+/* 🖤 CORAZONES LATIENDO */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:20px;
+  animation:
+    float 9s linear infinite,
+    beat 1.2s ease-in-out infinite;
+}
+@keyframes float{
+  to{transform:translateY(-120vh);}
+}
+@keyframes beat{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.35);}
+}
+
+/* ♾️ PARA SIEMPRE */
+#forever{
+  margin-top:14px;
+  font-size:17px;
+  letter-spacing:2px;
+  opacity:0;
+  color:#cfcfcf;
+  animation:eternal 3s ease-in-out infinite;
+}
+@keyframes eternal{
+  0%,100%{transform:scale(1); opacity:0.6;}
+  50%{transform:scale(1.15); opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="flash" id="flash"></div>
+<audio id="thunder" src="trueno.mp3"></audio>
+
+<div class="fog"></div>
+<div class="web" style="top:-80px;left:-80px"></div>
+<div class="web" style="top:-80px;right:-80px"></div>
+<div class="spider"></div>
+
+<div class="envelope" onclick="openLetter()">
+  <div class="flap" id="flap"></div>
+
+  <div class="card" id="card">
+    <h3>Para Belén 🖤</h3>
+
+    <div class="photo"></div>
+
+    <p id="text"></p>
+    <p id="quote"></p>
+
+    <div id="forever">Belén &amp; Augusto — Para siempre ♾️</div>
+
+    <div class="extra-photo"></div>
+
+    <p><b>— Augusto</b></p>
+  </div>
+</div>
+
+<script>
+// ✍️ TEXTO ESCRIBIÉNDOSE
+const message = `
+Nuestro primer San Valentín,
+con mi mejor amiga,
+mi compañera,
+mi eterno amor.
+
+Te amo infinitamente
+y quiero estar siempre a tu lado,
+dormir en cucharita
+y mucho bechoabacho.
+`;
+
+const quote = `
+“Incluso en los lugares más oscuros,
+el amor es lo único que nos mantiene vivos.”
+`;
+
+function typeText(id,text,speed){
+  let i=0, el=document.getElementById(id);
+  const int=setInterval(()=>{
+    el.innerHTML+=text[i]==="\n"?"<br>":text[i];
+    if(++i>=text.length) clearInterval(int);
+  },speed);
+}
+
+function openLetter(){
+  document.getElementById("flap").style.transform="rotateX(180deg)";
+  document.getElementById("card").style.opacity="1";
+  document.getElementById("card").style.transform="translateY(-60px)";
+  setTimeout(()=>typeText("text",message,40),800);
+  setTimeout(()=>typeText("quote",quote,50),5000);
+  setTimeout(()=>document.getElementById("forever").style.opacity=1,8000);
+}
+
+// 🌧️ LLUVIA
+for(let i=0;i<90;i++){
+  let r=document.createElement("div");
+  r.className="rain";
+  r.style.left=Math.random()*100+"vw";
+  r.style.animationDuration=(0.4+Math.random())+"s";
+  document.body.appendChild(r);
+}
+
+// 🖤 CORAZONES
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="🖤";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),9000);
+},450);
+
+// ⚡ TRUENO
+setInterval(()=>{
+  document.getElementById("flash").style.opacity=0.8;
+  document.getElementById("thunder").play();
+  setTimeout(()=>document.getElementById("flash").style.opacity=0,150);
+},12000);
+</script>
+
+</body>
+</html>
